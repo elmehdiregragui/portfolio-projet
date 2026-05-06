@@ -244,7 +244,7 @@ Cette commande lance :
 
 
 # Structure du projet
-
+```text
 portfolio-projet/
 │
 ├── client/
@@ -278,7 +278,7 @@ portfolio-projet/
 ├── docker-compose.yml
 ├── README.md
 └── documentation/
-
+```
 
 
 # Tests API
