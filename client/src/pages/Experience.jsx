@@ -30,7 +30,7 @@ function Experience({ theme }) {
 >
       <div className="max-w-5xl mx-auto">
         <p className="text-cyan-400 text-sm md:text-base font-semibold uppercase tracking-widest mb-4">
-          Expérience / CV
+          Expériences 
         </p>
 
         <h1 className="text-4xl md:text-5xl font-bold mb-6">
