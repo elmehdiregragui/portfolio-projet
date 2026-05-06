@@ -103,13 +103,14 @@ Fonctionnalités du chat :
 - Déploiement du serveur sur Render
 
 
-## Partie 3 — API REST 
+## Partie 3 — API REST professionnelle
 
 Le backend contient une API REST avec plusieurs routes.
 
 ### Routes publiques
 
 | Méthode | Route | Description |
+|---|---|---|
 | GET | `/api/projects` | Retourne tous les projets |
 | GET | `/api/projects/:id` | Retourne un projet précis |
 | GET | `/api/skills` | Retourne les compétences |
@@ -120,11 +121,13 @@ Le backend contient une API REST avec plusieurs routes.
 ### Routes protégées par JWT
 
 | Méthode | Route | Description |
+|---|---|---|
 | GET | `/api/messages` | Retourne les messages de contact |
 | POST | `/api/projects` | Ajoute un projet |
 | PUT | `/api/projects/:id` | Modifie un projet |
 | DELETE | `/api/projects/:id` | Supprime un projet |
 
+---
 
 ## Authentification admin
 
