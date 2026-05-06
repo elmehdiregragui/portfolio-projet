@@ -51,7 +51,6 @@ https://github.com/elmehdiregragui/portfolio-projet
 - bcryptjs
 - express-validator
 - dotenv
-- CORS
 
 ### Déploiement
 
