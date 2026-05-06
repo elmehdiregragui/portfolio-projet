@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -19,7 +20,7 @@ const io = new Server(server, {
   },
 });
 
-const JWT_SECRET = "secret_portfolio_123";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // données temporaires en mémoire
 let projects = [
@@ -313,6 +314,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(process.env.PORT || 3001, () => {
+server.listen(process.env.PORT, () => {
   console.log("Serveur lancé");
 });
