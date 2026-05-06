@@ -5,7 +5,7 @@ function Projects({ theme }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const API_URL = "http://localhost:3001";
+  const API_URL = "https://portfolio-projet-1.onrender.com";
 
   useEffect(() => {
     fetch(`${API_URL}/api/projects`)
