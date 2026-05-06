@@ -6,8 +6,10 @@ const socket = io("https://portfolio-projet-1.onrender.com");
 
 function ChatBox() {
   const [open, setOpen] = useState(false);
+  const [pseudo, setPseudo] = useState("Visiteur");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [typing, setTyping] = useState("");
 
   useEffect(() => {
     socket.on("chat history", (history) => {
@@ -18,34 +20,54 @@ function ChatBox() {
       setMessages((prev) => [...prev, msg]);
     });
 
+    socket.on("typing", (data) => {
+      setTyping(`${data.name} est en train d'écrire...`);
+    });
+
+    socket.on("stop typing", () => {
+      setTyping("");
+    });
+
     return () => {
       socket.off("chat history");
       socket.off("chat message");
+      socket.off("typing");
+      socket.off("stop typing");
     };
   }, []);
 
   const sendMessage = () => {
     if (message.trim() !== "") {
       socket.emit("chat message", {
-  text: message,
-  sender: "visiteur",
-});
+        text: message,
+        sender: "visiteur",
+        name: pseudo,
+      });
 
+      socket.emit("stop typing");
       setMessage("");
-
       window.location.href = "/chat";
     }
+  };
+
+  const handleTyping = (e) => {
+    setMessage(e.target.value);
+
+    socket.emit("typing", {
+      name: pseudo,
+    });
+
+    setTimeout(() => {
+      socket.emit("stop typing");
+    }, 1200);
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {open && (
         <div className="w-80 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-4 mb-4">
-          
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-cyan-400">
-              Chat
-            </h2>
+            <h2 className="text-xl font-bold text-cyan-400">Chat</h2>
 
             <button
               onClick={() => setOpen(false)}
@@ -54,6 +76,14 @@ function ChatBox() {
               ✖
             </button>
           </div>
+
+          <input
+            type="text"
+            placeholder="Votre nom..."
+            value={pseudo}
+            onChange={(e) => setPseudo(e.target.value)}
+            className="w-full mb-3 px-3 py-2 rounded-xl bg-slate-800 text-white outline-none text-sm"
+          />
 
           <div className="bg-slate-950 h-64 overflow-y-auto p-3 rounded-xl mb-3">
             {messages.length === 0 ? (
@@ -64,15 +94,23 @@ function ChatBox() {
               messages.map((msg, index) => (
                 <div
                   key={index}
-                  className="bg-cyan-500 text-black px-3 py-2 rounded-xl mb-2 text-sm w-fit"
+                  className={`px-3 py-2 rounded-xl mb-2 text-sm w-fit ${
+                    msg.sender === "admin"
+                      ? "bg-slate-700 text-white"
+                      : "bg-cyan-500 text-black"
+                  }`}
                 >
-                  <p>{msg.text}</p>
-
-                  <p className="text-[10px] text-slate-700 mt-1">
-                    {msg.time}
+                  <p className="font-semibold text-xs">
+                    {msg.sender === "admin" ? "Admin" : msg.name}
                   </p>
+                  <p>{msg.text}</p>
+                  <p className="text-[10px] opacity-70 mt-1">{msg.time}</p>
                 </div>
               ))
+            )}
+
+            {typing && (
+              <p className="text-slate-400 text-xs mt-2">{typing}</p>
             )}
           </div>
 
@@ -81,11 +119,9 @@ function ChatBox() {
               type="text"
               placeholder="Message..."
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={handleTyping}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  sendMessage();
-                }
+                if (e.key === "Enter") sendMessage();
               }}
               className="flex-1 px-3 py-2 rounded-xl bg-slate-800 text-white outline-none text-sm"
             />
