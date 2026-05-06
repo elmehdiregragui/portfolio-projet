@@ -66,7 +66,7 @@ https://github.com/elmehdiregragui/portfolio-projet
 
 ## Fonctionnalités principales
 
-## Partie 1 — Portfolio professionnel
+## Partie 1 — Portfolio
 
 Le portfolio contient :
 
@@ -103,7 +103,7 @@ Fonctionnalités du chat :
 - Déploiement du serveur sur Render
 
 
-## Partie 3 — API REST professionnelle
+## Partie 3 — API REST 
 
 Le backend contient une API REST avec plusieurs routes.
 
